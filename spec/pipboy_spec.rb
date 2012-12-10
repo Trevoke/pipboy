@@ -8,22 +8,6 @@ describe Pipboy do
 
     context "a file" do
       context "that exists" do
-
-        it "is stored away" do
-          pending
-          file_name = ".filename"
-          file_contents = File.read file_name
-
-          expect do
-            subject.watch file_name
-          end.to change(File.symlink?(file_name)).from(false).to(true)
-
-          subject.dir.file_listing.should include file_name
-          subject.dir.read(file_name).should eq file_contents
-        end
-      end
-      context "that does not exist" do
-        it 'raises an error'
       end
     end
 
