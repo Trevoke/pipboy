@@ -1,4 +1,4 @@
-require "pipboy/version"
+require_relative "pipboy/version"
 
 module Pipboy
   # Your code goes here...
