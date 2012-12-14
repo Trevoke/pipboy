@@ -1,23 +1,6 @@
 require 'spec_helper'
-require 'fileutils'
-require 'tempfile'
 
 describe Pipboy do
-
-  context "watch" do
-
-    context "a file" do
-      context "that exists" do
-      end
-    end
-
-    context "a directory" do
-      it 'saves an empty directory'
-      it 'saves a directory with a file in it'
-      it 'saves everything in a directory'
-    end
-
-  end
 
   context "list" do
     it 'lists a saved file along with the existing symlink'

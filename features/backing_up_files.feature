@@ -6,5 +6,5 @@ Feature: Backing up a file
   Scenario: Backing up a file
     Given a file named ".bashrc" in my home directory
     When I type "pipboy watch .bashrc"
-    Then the file should now be a symlink
+    Then .bashrc should now be a symlink
     And the file should be in the "~/config" directory

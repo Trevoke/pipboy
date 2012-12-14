@@ -16,6 +16,9 @@ RSpec.configure do |config|
   config.order = 'random'
 end
 
+require 'fileutils'
+require 'tempfile'
+
 require 'pathname'
 require 'ostruct'
 
