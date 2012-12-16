@@ -2,34 +2,50 @@ require 'spec_helper'
 
 module Pipboy
   describe Monitor do
-    context "watch" do
+    let(:configdir) { Dir.mktmpdir }
+    let(:homedir) { Dir.mktmpdir }
+
+    after do
+      [configdir, homedir].each { |x| FileUtils.rmtree x}
+    end
+    subject { Monitor.new configdir: configdir }
+
+    context "watching" do
       context "a file" do
-        after do
-          FileUtils.rm_f '.bashrc' 
-          FileUtils.rm_f 'tmp/.bashrc'
+        let(:filename) { '.bashrc' }
+
+        context "that exists" do
+          let(:file) { Tempfile.new filename, homedir }
+
+          before { subject.watch file }
+
+          its(:files) { should eq %W[. .. #{File.basename(file)}] }
+
+          it "becomes a symlink" do
+            File.symlink?(file).should be_true
+          end
         end
-        it "exists" do
-          file = '.bashrc'
-          FileUtils.touch file
-          Monitor.watch file
-          Monitor.files.should eq %w[. .. .bashrc]
-          File.symlink?('.bashrc').should be_true
-        end
-        it "does not exist" do
-          file = '.bashrc'
-          expect do
-            Monitor.watch file
-          end.to raise_error FileDoesNotExist
-          Monitor.files.should eq %w[. ..]
+
+        context "that does not exist" do
+          let(:file) { filename }
+
+          it "raises an error" do
+            expect do
+              subject.watch file
+            end.to raise_error FileDoesNotExist
+          end
+
+          its(:files) { should eq %w[. ..] }
+
         end
       end
 
       context "a directory" do
-        it 'saves an empty directory'
         it 'saves a directory with a file in it'
+        it 'saves an empty directory'
         it 'saves everything in a directory'
+        it 'raises an error when given a non-existent directory'
       end
-
     end
   end
 end

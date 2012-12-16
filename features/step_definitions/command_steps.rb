@@ -1,4 +1,5 @@
-When /^I type "pipboy watch .bashrc"$/ do 
-  Pipboy::Monitor.watch '.bashrc' 
+When /^I type "pipboy watch ~\/.bashrc"$/ do
+  @monitor = Pipboy::Monitor.new configdir: @configdir
+  @monitor.watch @file
 end
 

@@ -2,14 +2,18 @@ require 'fileutils'
 
 module Pipboy
   class Monitor
-    def self.watch file
-      raise FileDoesNotExist unless File.exists?(file)
-      FileUtils.mv file, "tmp/"
-      File.symlink "tmp/#{file}", file
+    def initialize args={}
+      @configdir = args.fetch(:configdir, "~/config")
     end
 
-    def self.files
-      Dir.entries 'tmp/'
+    def watch file
+      raise(FileDoesNotExist, "#{file} does not exist") unless File.exists?(file)
+      FileUtils.mv file, @configdir
+      File.symlink "#@configdir/#{file}", file
+    end
+
+    def files
+      Dir.entries @configdir
     end
   end
 end
