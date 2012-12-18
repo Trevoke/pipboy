@@ -40,12 +40,12 @@ module Pipboy
         end
       end
 
-      context "a directory" do
-        it 'saves a directory with a file in it'
-        it 'saves an empty directory'
-        it 'saves everything in a directory'
-        it 'raises an error when given a non-existent directory'
-      end
+      # context "a directory" do
+      #   it 'saves a directory with a file in it'
+      #   it 'saves an empty directory'
+      #   it 'saves everything in a directory'
+      #   it 'raises an error when given a non-existent directory'
+      # end
     end
   end
 end
