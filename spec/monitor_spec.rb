@@ -16,7 +16,6 @@ module Pipboy
 
         context "that exists" do
           let(:file) { Tempfile.new filename, homedir }
-
           before { subject.watch file }
 
           its(:files) { should eq %W[. .. #{File.basename(file)}] }
@@ -40,12 +39,18 @@ module Pipboy
         end
       end
 
-      # context "a directory" do
+       context "a directory" do
+         let(:dirname) { 'config' }
       #   it 'saves a directory with a file in it'
-      #   it 'saves an empty directory'
+      context "that is empty" do
+
+         it 'is saved' do
+           pending
+         end
+      end
       #   it 'saves everything in a directory'
       #   it 'raises an error when given a non-existent directory'
-      # end
+       end
     end
   end
 end
