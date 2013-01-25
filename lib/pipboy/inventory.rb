@@ -2,14 +2,19 @@ require 'yaml'
 
 module Pipboy
   class Inventory
-    def list file='pipboy.yml', output=$stdout
-      YAML.load_file(file).each do |key, value|
-        output.puts "#{key} => #{value}"
+    def initialize args
+      @db = args.fetch :db
+    end
+    def list
+      output = []
+      YAML.load_file(@db).each do |key, value|
+        output << "#{key} => #{value}"
       end
+      output
     end
 
-    def retrieve file, saved_file='pipboy.yml'
-      x = YAML.load_file(saved_file)
+    def retrieve file
+      x = YAML.load_file(@db)
       return x[file]
     end
   end
