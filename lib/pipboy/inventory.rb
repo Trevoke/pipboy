@@ -7,15 +7,18 @@ module Pipboy
     end
     def list
       output = []
-      YAML.load_file(@db).each do |key, value|
+      files.each do |key, value|
         output << "#{key} => #{value}"
       end
       output
     end
 
+    def files
+      @files ||= YAML.load_file @db
+    end
+
     def retrieve file
-      x = YAML.load_file(@db)
-      return x[file]
+      files[file]
     end
   end
 end
