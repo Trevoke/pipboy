@@ -8,7 +8,8 @@ module Pipboy
     after do
       [configdir, homedir].each { |x| FileUtils.rmtree x}
     end
-    subject { Monitor.new configdir: configdir }
+
+    subject { Monitor.new(configdir: configdir) }
 
     context "watching" do
       context "a file" do
@@ -22,6 +23,10 @@ module Pipboy
 
           it "becomes a symlink" do
             File.symlink?(file).should be_true
+          end
+
+          it 'is watched' do
+            subject.watched?(File.basename(file)).should be_true
           end
         end
 
@@ -39,18 +44,24 @@ module Pipboy
         end
       end
 
-       context "a directory" do
-         let(:dirname) { 'config' }
-      #   it 'saves a directory with a file in it'
-      context "that is empty" do
+      context "a directory" do
+        let(:dirname) { 'config' }
+        #   it 'saves a directory with a file in it'
+        context "that is empty" do
 
-         it 'is saved' do
-           pending
-         end
+          it 'is saved' do
+            pending
+          end
+        end
+        #   it 'saves everything in a directory'
+        #   it 'raises an error when given a non-existent directory'
       end
-      #   it 'saves everything in a directory'
-      #   it 'raises an error when given a non-existent directory'
-       end
+    end
+
+    context 'file status' do
+      it 'reports when a file is not watched' do
+        subject.watched?('some_file').should be_false
+      end
     end
   end
 end

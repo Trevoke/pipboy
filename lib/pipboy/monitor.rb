@@ -3,6 +3,7 @@ require 'fileutils'
 module Pipboy
   class Monitor
     include FileComparisons
+
     def initialize args={}
       @configdir = args.fetch(:configdir, "~/config")
     end
@@ -16,6 +17,10 @@ module Pipboy
 
     def files
       Dir.entries @configdir
+    end
+
+    def watched? file
+      files.include? file
     end
   end
 end
