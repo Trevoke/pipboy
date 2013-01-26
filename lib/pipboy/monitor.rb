@@ -11,6 +11,7 @@ module Pipboy
     def watch file
       file_exists = file_exists? file
       raise(FileDoesNotExist) unless file_exists
+      Inventory.new(db: "#@configdir/pipboy.yml").store file
       FileUtils.mv file, @configdir
       File.symlink "#@configdir/#{file}", file
     end

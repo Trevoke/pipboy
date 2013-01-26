@@ -5,6 +5,7 @@ module Pipboy
     def initialize args
       @db = args.fetch :db
     end
+
     def list
       output = []
       files.each do |key, value|
@@ -14,11 +15,15 @@ module Pipboy
     end
 
     def files
-      @files ||= YAML.load_file @db
+      @files ||= File.exist?(@db) ? YAML.load_file(@db) : {}
     end
 
     def retrieve file
       files[file]
+    end
+
+    def store file
+      files[File.basename(file)] = File.dirname(file)
     end
   end
 end
