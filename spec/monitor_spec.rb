@@ -19,7 +19,7 @@ module Pipboy
           let(:file) { Tempfile.new filename, homedir }
           before { subject.watch file }
 
-          its(:files) { should eq %W[. .. #{File.basename(file)}] }
+          its(:files) { should match_array %W[. .. #{File.basename(file)}] }
 
           it "becomes a symlink" do
             File.symlink?(file).should be_true
@@ -39,7 +39,7 @@ module Pipboy
             end.to raise_error FileDoesNotExist
           end
 
-          its(:files) { should eq %w[. ..] }
+          its(:files) { should match_array %w[. ..] }
 
         end
       end

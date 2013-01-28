@@ -17,7 +17,7 @@ module Pipboy
     end
 
     def files
-      Dir.entries @configdir
+      Dir.entries(@configdir)
     end
 
     def watched? file
