@@ -9,6 +9,7 @@ module Pipboy
     end
 
     def watch file
+      Dir.mkdir(@configdir) unless File.directory? @configdir
       file_exists = file_exists? file
       raise(FileDoesNotExist) unless file_exists
       Inventory.new(db: "#@configdir/pipboy.yml").store file
