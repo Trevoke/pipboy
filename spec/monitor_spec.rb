@@ -18,7 +18,7 @@ module Pipboy
 
           context "that exists" do
             let(:file) { Tempfile.new filename, homedir }
-            before { subject.watch file }
+            before { subject.watch file.path }
 
             its(:files) { should include File.basename(file) }
 
