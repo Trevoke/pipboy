@@ -2,29 +2,41 @@ require 'fileutils'
 require 'tempfile'
 require 'tmpdir'
 
-Then /^"\.bashrc" in my home directory should now be a symlink$/ do
-  File.symlink?(@file).should be_true
-end
-
-Given /^the home directory is clean$/ do
+Given /^an empty home directory$/ do
   @homedir = Dir.mktmpdir
 end
 
-And /^the pipboy's directory is clean$/ do
+And /^an empty config directory$/ do
   @configdir = Dir.mktmpdir
 end
 
-Given /^a file named "(.*?)" in home$/ do |file|
-  @file = Tempfile.new file, @homedir
+Given /^a file named "(.*?)" in the home directory$/ do |file|
+  filepath = File.expand_path File.join(@homedir, file)
+  @file = FileUtils.touch filepath
 end
 
-Then /^"\.bashrc" should be in the config directory$/ do
-  Dir.entries(@configdir).should include(File.basename(@file))
+And /^"(.*?)" in the home directory should be a "(.*?)"$/ do |file, filetype|
+  filepath = File.expand_path File.join(@homedir, file)
+  case filetype
+  when "symlink"
+    File.symlink?(filepath).should be_true
+  else
+    raise ArgumentError
+  end
 end
 
-Given /^a symlink to "(.*?)" in the config directory$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^"(.*?)" in the home directory should point to the file in the config directory$/ do |file|
+  filepath = File.expand_path File.join(@homedir, file)
 end
-When /^I am in the home directory$/ do
-  Dir.chdir @homedir
+
+After do
+  FileUtils.rmtree @homedir
+  FileUtils.rmtree @configdir
+end
+
+Then /^there should be "(.*?)" files? in the config directory$/ do |number|
+  count = number.to_i
+  files_in_config = Dir.entries(@configdir)
+  # Magic number alert! This includes ., .., and .git
+  files_in_config.size.should eq count + 3 
 end

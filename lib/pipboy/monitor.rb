@@ -10,11 +10,10 @@ module Pipboy
 
     def watch file
       Dir.mkdir(@configdir) unless File.directory? @configdir
-      file_exists = file_exists? file
-      raise(FileDoesNotExist) unless file_exists
+      raise(FileDoesNotExist) unless file_exists?(file)
       Inventory.new(db: "#@configdir/pipboy.yml").store file
-      FileUtils.mv file, @configdir
-      File.symlink "#@configdir/#{file}", file
+      create_symlink_for file
+      EffKey.new(@configdir).save file
     end
 
     def files
@@ -23,6 +22,13 @@ module Pipboy
 
     def watched? file
       files.include? file
+    end
+
+    private
+
+    def create_symlink_for file
+      FileUtils.mv file, @configdir
+      File.symlink "#@configdir/#{file}", file
     end
   end
 end
