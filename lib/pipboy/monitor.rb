@@ -1,4 +1,5 @@
 require 'fileutils'
+require_relative 'file_comparisons'
 
 module Pipboy
   class Monitor
@@ -9,7 +10,6 @@ module Pipboy
     end
 
     def watch file
-      Dir.mkdir(@configdir) unless File.directory? @configdir
       raise(FileDoesNotExist) unless file_exists?(file)
       Inventory.new(db: "#@configdir/pipboy.yml").store file
       create_symlink_for file
@@ -27,8 +27,10 @@ module Pipboy
     private
 
     def create_symlink_for file
-      FileUtils.mv file, @configdir
-      File.symlink "#@configdir/#{file}", file
+      path = File.expand_path file
+      Dir.mkdir(@configdir) unless File.directory? @configdir
+      FileUtils.mv path, @configdir
+      File.symlink "#@configdir/#{file}", path
     end
   end
 end
