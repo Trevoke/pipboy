@@ -44,6 +44,6 @@ end
 Then /^there should be "(.*?)" files? in the config directory$/ do |number|
   count = number.to_i
   files_in_config = Dir.entries(@configdir)
-  # Magic number alert! This includes ., .., and .git
-  files_in_config.size.should eq count + 3
+  # Magic number alert! This includes ., .., the pipboy.yml file, and .git
+  files_in_config.size.should eq count + 4
 end

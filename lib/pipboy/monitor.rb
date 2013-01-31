@@ -11,9 +11,9 @@ module Pipboy
 
     def watch file
       raise(FileDoesNotExist) unless file_exists?(file)
-      Inventory.new(db: "#@configdir/pipboy.yml").store file
       create_symlink_for file
-      EffKey.new(@configdir).save file
+      Inventory.new(db: "#@configdir/pipboy.yml").store file
+      EffKey.new(@configdir).save file, 'pipboy.yml'
     end
 
     def files

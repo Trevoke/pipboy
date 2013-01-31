@@ -8,9 +8,10 @@ module Pipboy
       @g = ::Git.init configdir
     end
 
-    def save file
-      @g.add File.basename(file)
-      @g.commit "Added #{File.basename file}"
+    def save *files
+      files = files.map { |x| File.basename x }
+      @g.add files
+      @g.commit "Added #{files.join(', ')}"
     end
   end
 end

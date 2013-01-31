@@ -24,7 +24,7 @@ module Pipboy
 
     def store file
       files[File.basename(file)] = File.dirname(file)
-      File.open(@db, 'w') do |yaml|
+      ::File.open(@db, 'w') do |yaml|
         yaml << files.to_yaml
       end
     end
