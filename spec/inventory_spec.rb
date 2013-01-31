@@ -28,6 +28,8 @@ module Pipboy
         Inventory.new(db: "#{dir}/somefile.yml").
             store("/some/path")
         end.to_not raise_error Errno::ENOENT
+        yaml = YAML.load_file File.join(dir, 'somefile.yml')
+        yaml['path'].should eq '/some'
       end
     end
 
