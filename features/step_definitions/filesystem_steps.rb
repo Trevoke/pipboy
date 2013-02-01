@@ -1,4 +1,3 @@
-require 'pathname'
 require 'fileutils'
 require 'tempfile'
 require 'tmpdir'
@@ -13,7 +12,7 @@ end
 
 Given /^a file named "(.*?)" in the home directory$/ do |file|
   filepath = File.expand_path File.join(@homedir, file)
-  @file = FileUtils.touch filepath
+  FileUtils.touch filepath
 end
 
 And /^"(.*?)" in the home directory should be a "(.*?)"$/ do |file, filetype|
@@ -27,12 +26,9 @@ And /^"(.*?)" in the home directory should be a "(.*?)"$/ do |file, filetype|
 end
 
 Then /^"(.*?)" in the home directory should point to the file in the config directory$/ do |file|
-  destpath = File.expand_path File.join(@configdir, file)
-  orig_dir = Dir.pwd
-  Dir.chdir @configdir
-  symlink_destination = Pathname.new(file).realpath.to_s
-  Dir.chdir orig_dir
-  symlink_destination.should match Regexp.escape(destpath)
+  destpath = File.join(@configdir, file)
+  symlink_destination = File.join File.readlink(File.join(@homedir, file)).split("//")[0], file
+  symlink_destination.should eq destpath
 
 end
 
