@@ -8,6 +8,9 @@ end
 
 And /^an empty config directory$/ do
   @configdir = Dir.mktmpdir
+  Pipboy.config do |c|
+    c.config_dir = @configdir
+  end
 end
 
 Given /^a file named "(.*?)" in the home directory$/ do |file|

@@ -5,19 +5,19 @@ module Pipboy
   class Monitor
     include FileComparisons
 
-    def initialize args={}
-      @configdir = args.fetch(:configdir, "~/config")
+    def config_dir
+      Pipboy.configuration.config_dir
     end
 
     def watch file
       raise(FileDoesNotExist) unless file_exists?(file)
       create_symlink_for file
-      Inventory.new(db: "#@configdir/pipboy.yml").store file
-      EffKey.new(@configdir).save file, 'pipboy.yml'
+      Inventory.new(db: "#{config_dir}/pipboy.yml").store file
+      EffKey.new(config_dir).save file, 'pipboy.yml'
     end
 
     def files
-      Dir.entries(@configdir)
+      Dir.entries(config_dir)
     end
 
     def watched? file
@@ -28,9 +28,8 @@ module Pipboy
 
     def create_symlink_for file
       path = File.expand_path file
-      Dir.mkdir(@configdir) unless File.directory? @configdir
-      FileUtils.mv path, @configdir
-      File.symlink "#@configdir/#{file}", path
+      FileUtils.mv path, config_dir
+      File.symlink "#{config_dir}/#{file}", path
     end
   end
 end
