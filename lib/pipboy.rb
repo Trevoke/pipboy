@@ -20,6 +20,4 @@ module Pipboy
       @configuration ||= Configuration.new
     end
   end
-
-
 end
