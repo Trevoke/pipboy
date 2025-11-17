@@ -22,7 +22,7 @@ And /^"(.*?)" in the home directory should be a "(.*?)"$/ do |file, filetype|
   filepath = File.expand_path File.join(@homedir, file)
   case filetype
     when 'symlink'
-      File.symlink?(filepath).should be_true
+      File.symlink?(filepath).should be_truthy
     else
       raise ArgumentError
   end
@@ -30,9 +30,8 @@ end
 
 Then /^"(.*?)" in the home directory should point to the file in the config directory$/ do |file|
   destpath = File.join(@configdir, file)
-  symlink_destination = File.join File.readlink(File.join(@homedir, file)).split("//")[0], file
+  symlink_destination = File.readlink(File.join(@homedir, file))
   symlink_destination.should eq destpath
-
 end
 
 After do

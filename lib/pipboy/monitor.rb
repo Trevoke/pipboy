@@ -28,8 +28,20 @@ module Pipboy
 
     def create_symlink_for file
       path = File.expand_path file
+      basename = File.basename(file)
+      backed_up_path = File.join(config_dir, basename)
+
+      # Move the file
       FileUtils.mv path, config_dir
-      File.symlink "#{config_dir}/#{file}", path
+
+      begin
+        # Try to create symlink
+        File.symlink backed_up_path, path
+      rescue => e
+        # Rollback: move file back to original location
+        FileUtils.mv backed_up_path, path
+        raise e
+      end
     end
   end
 end

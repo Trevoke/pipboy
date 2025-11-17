@@ -1,4 +1,10 @@
 ---
-".bashrc": "~"
-Xorg.log.0: "/tmp"
-".zshrc": "/home/user"
+"/root/.bashrc":
+  basename: ".bashrc"
+  dirname: "/root"
+"/tmp/Xorg.log.0":
+  basename: Xorg.log.0
+  dirname: "/tmp"
+"/home/user/.zshrc":
+  basename: ".zshrc"
+  dirname: "/home/user"
