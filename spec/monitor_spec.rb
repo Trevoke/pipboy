@@ -26,11 +26,11 @@ module Pipboy
           its(:files) { should include File.basename(file) }
 
           it "becomes a symlink" do
-            File.symlink?(file).should be_true
+            File.symlink?(file).should be_truthy
           end
 
           it 'is watched' do
-            subject.watched?(File.basename(file)).should be_true
+            subject.watched?(File.basename(file)).should be_truthy
           end
         end
 
@@ -64,7 +64,7 @@ module Pipboy
 
     context 'file status' do
       it 'reports when a file is not watched' do
-        subject.watched?('some_file').should be_false
+        subject.watched?('some_file').should be_falsey
       end
     end
 

@@ -10,10 +10,13 @@ require_relative 'pipboy/configuration'
 
 module Pipboy
   class << self
-    attr_accessor :configuration
+    def configuration
+      @configuration ||= Configuration.new
+    end
 
     def config
-      yield configure if block_given?
+      yield configuration if block_given?
+      configuration
     end
 
     def configure

@@ -14,7 +14,10 @@ module Pipboy
     context "with existing Git repo" do
 
       before(:each) do
-        Git.init configdir
+        g = Git.init configdir
+        g.config('commit.gpgsign', 'false')
+        g.config('user.name', 'Test User')
+        g.config('user.email', 'test@example.com')
       end
 
       it 'adds and commits a file' do

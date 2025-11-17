@@ -21,7 +21,7 @@ describe Pipboy do
         its(:config_dir) { should eq configdir }
 
         it "creates the config directory" do
-          File.exist?(configdir).should be_true
+          File.exist?(configdir).should be_truthy
         end
 
         it "trickles down the configuration" do
