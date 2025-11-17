@@ -8,10 +8,11 @@ module Pipboy
     end
 
     def restore(file)
+      expanded_path = File.expand_path(file)
       basename = File.basename(file)
 
-      # Check if file is being watched
-      original_location = @inventory.retrieve(basename)
+      # Check if file is being watched (using full path now)
+      original_location = @inventory.retrieve(expanded_path)
       raise FileNotWatched, "#{basename} is not being watched" unless original_location
 
       # Full paths
@@ -32,7 +33,7 @@ module Pipboy
       FileUtils.mv(backed_up_file, original_path)
 
       # Remove from inventory
-      remove_from_inventory(basename)
+      remove_from_inventory(expanded_path)
 
       # Commit to git
       eff_key = EffKey.new(@config_dir)
@@ -43,9 +44,9 @@ module Pipboy
 
     private
 
-    def remove_from_inventory(basename)
+    def remove_from_inventory(full_path)
       files = @inventory.files
-      files.delete(basename)
+      files.delete(full_path)
       File.open("#{@config_dir}/pipboy.yml", 'w') do |yaml|
         yaml << files.to_yaml
       end
