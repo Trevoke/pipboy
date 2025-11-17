@@ -6,6 +6,15 @@ module Pipboy
       @g = ::Git.open configdir
     rescue ArgumentError
       @g = ::Git.init configdir
+      configure_git
+    end
+
+    def configure_git
+      # Disable commit signing (can be overridden in user config)
+      @g.config('commit.gpgsign', 'false') rescue nil
+      # Set default user if not configured
+      @g.config('user.name', 'Pipboy') rescue nil
+      @g.config('user.email', 'pipboy@localhost') rescue nil
     end
 
     def save *files

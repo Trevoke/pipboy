@@ -7,7 +7,7 @@ module Pipboy
 
     it 'gives a message if the file does not exist' do
       existence_of_file = file_exists? 'filename_not_existant', output
-      existence_of_file.should be_false
+      existence_of_file.should be_falsey
       output.string.should eq "filename_not_existant does not exist.\n"
     end
 

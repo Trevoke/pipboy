@@ -1,4 +1,10 @@
 module Pipboy
-  class FileDoesNotExist < Exception
+  class FileDoesNotExist < StandardError
+  end
+
+  class FileNotWatched < StandardError
+  end
+
+  class FileExistsError < StandardError
   end
 end

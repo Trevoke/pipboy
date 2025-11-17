@@ -1,4 +1,4 @@
 ---
-.bashrc: '~'
-Xorg.log.0: /tmp
-.zshrc: /home/user
+".bashrc": "~"
+Xorg.log.0: "/tmp"
+".zshrc": "/home/user"

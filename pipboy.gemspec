@@ -17,9 +17,13 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_runtime_dependency 'git', '~> 1.2.5'
+  gem.required_ruby_version = '>= 3.0.0'
 
-  gem.add_development_dependency 'rspec', '>= 2.12.0'
+  gem.add_runtime_dependency 'git', '~> 2.3'
+  gem.add_runtime_dependency 'thor', '~> 1.3'
+
+  gem.add_development_dependency 'rspec', '~> 3.13'
+  gem.add_development_dependency 'rspec-its', '~> 1.3'
   gem.add_development_dependency 'cucumber'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rdoc'
